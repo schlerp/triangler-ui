@@ -4,12 +4,12 @@
 </script>
 
 <div>
-    <Fa icon={faSpinner} size="3x" pulse />
+	<Fa icon={faSpinner} size="3x" pulse />
 </div>
 
 <style>
-    div {
-        display: flex;
-        margin: auto;
-    }
+	div {
+		display: flex;
+		margin: auto;
+	}
 </style>

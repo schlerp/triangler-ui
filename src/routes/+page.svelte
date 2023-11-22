@@ -1,15 +1,33 @@
 <script lang="ts">
-	import 'chota';
-	import { Container } from 'svelte-chota';
-    import Spinner from '../components/Spinner.svelte';
+    import cookie from 'js-cookie';
+	import Spinner from '$lib/components/Spinner.svelte';
 	import { getAllExperiments } from '$lib/client/api';
-	import ExperimentCard from '../components/ExperimentCard.svelte';
+	import ExperimentCard from '$lib/components/ExperimentCard.svelte';
+    import { browser } from '$app/environment';
 
-	const request = getAllExperiments({});
+    if (browser) {
+        console.log('browser');
+        console.log(cookie.get('csrftoken'));
+        console.log(cookie.get('sessionid'));
+        console.debug(getAllExperiments(
+            {},
+            undefined,
+            {headers: {
+                //"X-CSRFToken": cookie.get('csrftoken') || '', 
+                cookies: `csrftoken=${cookie.get('csrftoken')}, sessionid=${cookie.get('sessionid')}`}
+            }
+        ));
+    }
+
+    const request = getAllExperiments(
+        {},
+        undefined,
+        {headers: {"X-CSRFToken": cookie.get('csrftoken') || ''}}
+    );
 	const requestReady = request.ready;
 </script>
 
-<Container>
+<div class="container">
 	<h1>All Experiments</h1>
 
 	<div class="card-wrapper">
@@ -18,20 +36,25 @@
 		{:then resp}
 			{#if resp.ok}
 				{#each resp.data as experiment}
-					<ExperimentCard {experiment} />
+					<a href={`/experiments/${experiment.id}`}>
+						<ExperimentCard {experiment} />
+					</a>
 				{/each}
 			{:else}
 				<p>Error while loading request</p>
 			{/if}
 		{/await}
 	</div>
-	<button on:click={() => request.reload()}> Reload Request </button>
-</Container>
+	<!--<button on:click={() => request.reload()}> Reload Request </button>-->
+</div>
 
 <style>
+	.container {
+		padding: 2rem;
+	}
 	.card-wrapper {
 		display: flex;
 		gap: 1em;
-		margin: 1em;
+		flex-direction: column;
 	}
 </style>
