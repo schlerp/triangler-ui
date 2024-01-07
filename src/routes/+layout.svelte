@@ -2,8 +2,7 @@
 	import Fa from 'svelte-fa';
 	import { faCircleNodes } from '@fortawesome/free-solid-svg-icons';
 	import UserBadge from '$lib/components/UserBadge.svelte';
-
-    export const ssr = false;
+	import Toasts from '$lib/components/Toasts.svelte';
 </script>
 
 <div>
@@ -19,6 +18,8 @@
 		<a class="nav-link" href="/about">About</a>
 	</nav>
 </div>
+
+<Toasts />
 
 <slot />
 

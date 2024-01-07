@@ -1,16 +1,17 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
-	import { faUser } from '@fortawesome/free-solid-svg-icons';
+	import { faUser, faSignOut } from '@fortawesome/free-solid-svg-icons';
 	import { currentUser } from '$lib/stores/user';
 </script>
 
 <div class="wrapper">
-	{#if $currentUser !== undefined && $currentUser.username !== undefined}
-		<div class="circle"><Fa icon={faUser} /></div>
+	{#if $currentUser !== null && $currentUser.username !== undefined}
 		<span>{$currentUser.username}</span>
-    {:else}
-        <span><a href="/auth/login">Login</a></span>
-    {/if}
+		<div class="circle"><Fa icon={faUser} /></div>
+		<a class="circle" href="/auth/logout" aria-label="Log out"><Fa icon={faSignOut} /></a>
+	{:else}
+		<span><a href="/auth/login">Login</a></span>
+	{/if}
 </div>
 
 <style>

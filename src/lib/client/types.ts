@@ -10,11 +10,11 @@ export interface ExperimentIn {
 	description?: string;
 	date_started: string;
 	date_ended?: string;
-	correct_sample: SampleEnum;
 }
 
 export interface Experiment extends ExperimentIn {
 	id: number;
+	p_value: number;
 }
 
 export interface ObservationIn {
@@ -26,6 +26,7 @@ export interface ObservationIn {
 export interface Observation extends ObservationIn {
 	id: number;
 	experiment: number;
+	correct_sample: SampleEnum;
 }
 
 export interface JustId {

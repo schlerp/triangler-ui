@@ -1,17 +1,10 @@
 <script lang="ts">
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import type { PageData } from './$types';
 	import type { User } from '$lib/types';
-	import { currentUser } from '$lib/stores/user';
-
-	interface LoginResponse {
-		success: boolean;
-		error: string | undefined;
-		user: User;
-	}
-
-	//export let data: PageData;
+	import { currentUser, logoutCurrentUser } from '$lib/stores/user';
+	import { corsHeaders, getCsrfToken } from '$lib/utils';
+	import { addToast } from '$lib/stores/toasts';
 
 	let username = '';
 	let password = '';
@@ -25,57 +18,61 @@
 		password = '';
 	}
 
-	interface CsrfTokenResponse {
-		csrfToken: string;
-	}
-
-	async function getCsrfToken(): Promise<string> {
-		const request = fetch('http://localhost:8000/auth/csrf', { credentials: 'include' });
-		const data = await request;
-		const json: CsrfTokenResponse = await data.json();
-		return json.csrfToken;
-	}
-
 	async function handleLogin() {
-		fetch('http://localhost:8000/auth/login/', {
+		fetch('http://localhost:8000/api/v1/token/pair', {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify({ username, password }),
 			headers: {
 				Accept: 'application/json',
-				'X-CSRFToken': await getCsrfToken()
+				'X-CSRFToken': await getCsrfToken(),
+				...corsHeaders
 			}
 		})
 			.then((response) => {
 				console.debug(response);
-				return response.json();
-			})
-			.then((data: LoginResponse) => {
-				console.log(JSON.stringify(data));
-				if (data.error === null) {
-					console.debug('returned user:', data.user);
-					currentUser.set(data.user);
-					isError = false;
-					resetForm();
+				if (response.ok) {
+					return response.json();
 				} else {
-					isError = true;
-					resetForm(true);
+					throw new Error('Username or password incorrect!');
 				}
+			})
+			.then((data: User) => {
+				console.debug('returned user:', data.username);
+				console.debug(JSON.stringify(data));
+				currentUser.set(data);
+				isError = false;
+				addToast({
+					content: `Welcome back, ${data.username}!`,
+					timeout: 3000
+				});
+				resetForm();
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+				isError = true;
+				resetForm(true);
 			});
 	}
 
-	$: isLoggedIn = $currentUser !== undefined && $currentUser.username !== undefined;
+	$: isLoggedIn = $currentUser !== null && $currentUser.username !== undefined;
 </script>
 
 <div class="container">
-	<form on:submit|preventDefault={() => handleLogin()}>
-		<Input label="Username" name="username" type="text" bind:value={username} />
-		<Input label="Password" name="password" type="password" bind:value={password} />
-		<Button>Sign In</Button>
-		{#if isError}
-			<p class="error">Incorrect username or password! Please try again.</p>
-		{/if}
-	</form>
+	{#if isLoggedIn}
+		<h1>Already logged in!</h1>
+		<span on:click={() => logoutCurrentUser()}>Logout</span>
+		<span><a href="/">Go to home</a></span>
+	{:else}
+		<form on:submit|preventDefault={() => handleLogin()}>
+			<Input label="Username" name="username" type="text" bind:value={username} />
+			<Input label="Password" name="password" type="password" bind:value={password} />
+			<Button>Sign In</Button>
+			{#if isError}
+				<p class="error">Incorrect username or password! Please try again.</p>
+			{/if}
+		</form>
+	{/if}
 	<h1>is logged in: {isLoggedIn}</h1>
 </div>
 
@@ -91,5 +88,10 @@
 	}
 	p.error {
 		color: red;
+	}
+	span {
+		border: 2px solid black;
+		border-radius: 0.2rem;
+		padding: 0.5em;
 	}
 </style>

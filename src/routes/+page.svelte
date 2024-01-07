@@ -1,29 +1,17 @@
 <script lang="ts">
-    import cookie from 'js-cookie';
+	import cookie from 'js-cookie';
 	import Spinner from '$lib/components/Spinner.svelte';
 	import { getAllExperiments } from '$lib/client/api';
 	import ExperimentCard from '$lib/components/ExperimentCard.svelte';
-    import { browser } from '$app/environment';
+	import { currentUser } from '$lib/stores/user';
 
-    if (browser) {
-        console.log('browser');
-        console.log(cookie.get('csrftoken'));
-        console.log(cookie.get('sessionid'));
-        console.debug(getAllExperiments(
-            {},
-            undefined,
-            {headers: {
-                //"X-CSRFToken": cookie.get('csrftoken') || '', 
-                cookies: `csrftoken=${cookie.get('csrftoken')}, sessionid=${cookie.get('sessionid')}`}
-            }
-        ));
-    }
-
-    const request = getAllExperiments(
-        {},
-        undefined,
-        {headers: {"X-CSRFToken": cookie.get('csrftoken') || ''}}
-    );
+	const request = getAllExperiments({}, undefined, {
+		headers: {
+			Authorization: `Bearer ${$currentUser ? $currentUser.access : ''}`,
+			'X-CSRFToken': cookie.get('csrftoken') || '',
+			cookies: `csrftoken=${cookie.get('csrftoken')}, sessionid=${cookie.get('sessionid')}`
+		}
+	});
 	const requestReady = request.ready;
 </script>
 
@@ -34,7 +22,7 @@
 		{#await $requestReady}
 			<Spinner />
 		{:then resp}
-			{#if resp.ok}
+			{#if resp !== undefined && resp.ok}
 				{#each resp.data as experiment}
 					<a href={`/experiments/${experiment.id}`}>
 						<ExperimentCard {experiment} />
