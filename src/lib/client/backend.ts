@@ -39,6 +39,11 @@ export interface paths {
 		 * @description Gets all observations defined for provided experiment id.
 		 */
 		get: operations['experiments_api_get_all_observations'];
+		/**
+		 * Create Observation
+		 * @description Creates a new observation with the supplied payload, returns the observation id.
+		 */
+		post: operations['experiments_api_create_observation'];
 	};
 	'/api/v1/experiments/{experiment_id}/observations/{observation_id}': {
 		/**
@@ -46,15 +51,6 @@ export interface paths {
 		 * @description Get a specific observation by its experiment id and observation id.
 		 */
 		get: operations['experiments_api_get_observation_by_id'];
-	};
-	'/api/v1/experiments/{experiment_id}/observation': {
-		/**
-		 * Create Observation
-		 * @description Creates a new observation with the supplied payload, returns the observation id.
-		 */
-		post: operations['experiments_api_create_observation'];
-	};
-	'/api/v1/experiments/{experiment_id}/observation/{observation_id}': {
 		/**
 		 * Update Observation
 		 * @description Updates the observation on experiment, using supplied payload
@@ -65,6 +61,35 @@ export interface paths {
 		 * @description Deletes the observation on provided experiment with a matching id.
 		 */
 		delete: operations['experiments_api_delete_observation'];
+	};
+	'/api/v1/experiments/{experiment_id}/responses': {
+		/**
+		 * Get All Observation Responses
+		 * @description Gets all observations defined for provided experiment id.
+		 */
+		get: operations['experiments_api_get_all_observation_responses'];
+		/**
+		 * Create Observation Response
+		 * @description Creates a new observation with the supplied payload, returns the observation id.
+		 */
+		post: operations['experiments_api_create_observation_response'];
+	};
+	'/api/v1/experiments/{experiment_id}/responses/{observation_id}': {
+		/**
+		 * Get Observation Response By Id
+		 * @description Get a specific observation by its experiment id and observation id.
+		 */
+		get: operations['experiments_api_get_observation_response_by_id'];
+		/**
+		 * Update Observation Response
+		 * @description Updates the observation on experiment, using supplied payload
+		 */
+		put: operations['experiments_api_update_observation_response'];
+		/**
+		 * Delete Observation Response
+		 * @description Deletes the observation on provided experiment with a matching id.
+		 */
+		delete: operations['experiments_api_delete_observation_response'];
 	};
 }
 
@@ -90,8 +115,10 @@ export interface components {
 			 * Format: date
 			 */
 			date_ended: string;
-			/** Correct Sample */
-			correct_sample: string;
+			/** Sample Size */
+			sample_size: number;
+			/** P Value */
+			p_value: number;
 		};
 		/** JustId */
 		JustId: {
@@ -114,8 +141,6 @@ export interface components {
 			 * Format: date
 			 */
 			date_ended: string;
-			/** Correct Sample */
-			correct_sample: string;
 		};
 		/** Success */
 		Success: {
@@ -124,37 +149,60 @@ export interface components {
 		};
 		/** ObservationOut */
 		ObservationOut: {
-			/** Experience Level */
-			experience_level: number;
+			/** Id */
+			id?: number;
 			/**
-			 * Chosen Sample
-			 * @enum {string}
-			 */
-			chosen_sample: 'A' | 'B' | 'C';
-			/**
-			 * Observation Date
+			 * Created At
 			 * Format: date-time
 			 */
-			observation_date: string;
-			/** Id */
-			id: number;
-			/** Experiment */
-			experiment: number;
+			created_at: string;
+			/** Correct Sample */
+			correct_sample: string;
+			/** Token */
+			token: string;
 		};
 		/** ObservationIn */
 		ObservationIn: {
-			/** Experience Level */
-			experience_level: number;
+			/** Correct Sample */
+			correct_sample: string;
+		};
+		/** ObservationResponseOut */
+		ObservationResponseOut: {
+			/** Id */
+			id?: number;
+			/** Chosen Sample */
+			chosen_sample: string;
 			/**
-			 * Chosen Sample
-			 * @enum {string}
-			 */
-			chosen_sample: 'A' | 'B' | 'C';
-			/**
-			 * Observation Date
+			 * Response Date
 			 * Format: date-time
 			 */
-			observation_date: string;
+			response_date: string;
+			/** Experiment */
+			experiment: number;
+			/** Observation */
+			observation: number;
+			/** Is Correct */
+			is_correct: boolean;
+			/** Experience Level */
+			experience_level: string;
+		};
+		/** ObservationResponseIn */
+		ObservationResponseIn: {
+			/** Chosen Sample */
+			chosen_sample: string;
+			/**
+			 * Response Date
+			 * Format: date-time
+			 */
+			response_date: string;
+			/** Experiment */
+			experiment_id: number;
+			/** Observation */
+			observation_id: number;
+			/** Experience Level */
+			experience_level: string;
+			/** Token */
+			token: string;
 		};
 	};
 	responses: never;
@@ -284,26 +332,6 @@ export interface operations {
 		};
 	};
 	/**
-	 * Get Observation By Id
-	 * @description Get a specific observation by its experiment id and observation id.
-	 */
-	experiments_api_get_observation_by_id: {
-		parameters: {
-			path: {
-				experiment_id: number;
-				observation_id: number;
-			};
-		};
-		responses: {
-			/** @description OK */
-			200: {
-				content: {
-					'application/json': components['schemas']['ObservationOut'];
-				};
-			};
-		};
-	};
-	/**
 	 * Create Observation
 	 * @description Creates a new observation with the supplied payload, returns the observation id.
 	 */
@@ -322,7 +350,27 @@ export interface operations {
 			/** @description OK */
 			200: {
 				content: {
-					'application/json': components['schemas']['JustId'];
+					'application/json': components['schemas']['ObservationOut'];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Observation By Id
+	 * @description Get a specific observation by its experiment id and observation id.
+	 */
+	experiments_api_get_observation_by_id: {
+		parameters: {
+			path: {
+				experiment_id: number;
+				observation_id: number;
+			};
+		};
+		responses: {
+			/** @description OK */
+			200: {
+				content: {
+					'application/json': components['schemas']['ObservationOut'];
 				};
 			};
 		};
@@ -357,6 +405,114 @@ export interface operations {
 	 * @description Deletes the observation on provided experiment with a matching id.
 	 */
 	experiments_api_delete_observation: {
+		parameters: {
+			path: {
+				experiment_id: number;
+				observation_id: number;
+			};
+		};
+		responses: {
+			/** @description OK */
+			200: {
+				content: {
+					'application/json': components['schemas']['Success'];
+				};
+			};
+		};
+	};
+	/**
+	 * Get All Observation Responses
+	 * @description Gets all observations defined for provided experiment id.
+	 */
+	experiments_api_get_all_observation_responses: {
+		parameters: {
+			path: {
+				experiment_id: number;
+			};
+		};
+		responses: {
+			/** @description OK */
+			200: {
+				content: {
+					'application/json': components['schemas']['ObservationResponseOut'][];
+				};
+			};
+		};
+	};
+	/**
+	 * Create Observation Response
+	 * @description Creates a new observation with the supplied payload, returns the observation id.
+	 */
+	experiments_api_create_observation_response: {
+		parameters: {
+			path: {
+				experiment_id: number;
+			};
+		};
+		requestBody: {
+			content: {
+				'application/json': components['schemas']['ObservationResponseIn'];
+			};
+		};
+		responses: {
+			/** @description OK */
+			200: {
+				content: {
+					'application/json': components['schemas']['JustId'];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Observation Response By Id
+	 * @description Get a specific observation by its experiment id and observation id.
+	 */
+	experiments_api_get_observation_response_by_id: {
+		parameters: {
+			path: {
+				experiment_id: number;
+				observation_id: number;
+			};
+		};
+		responses: {
+			/** @description OK */
+			200: {
+				content: {
+					'application/json': components['schemas']['ObservationResponseOut'];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Observation Response
+	 * @description Updates the observation on experiment, using supplied payload
+	 */
+	experiments_api_update_observation_response: {
+		parameters: {
+			path: {
+				experiment_id: number;
+				observation_id: number;
+			};
+		};
+		requestBody: {
+			content: {
+				'application/json': components['schemas']['ObservationResponseIn'];
+			};
+		};
+		responses: {
+			/** @description OK */
+			200: {
+				content: {
+					'application/json': components['schemas']['Success'];
+				};
+			};
+		};
+	};
+	/**
+	 * Delete Observation Response
+	 * @description Deletes the observation on provided experiment with a matching id.
+	 */
+	experiments_api_delete_observation_response: {
 		parameters: {
 			path: {
 				experiment_id: number;
