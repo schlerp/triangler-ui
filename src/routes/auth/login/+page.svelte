@@ -44,7 +44,6 @@
 				isError = false;
 				addToast({
 					content: `Welcome back, ${data.username}!`,
-					timeout: 3000
 				});
 				resetForm();
 			})

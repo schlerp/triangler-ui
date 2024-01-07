@@ -16,12 +16,10 @@
 <style>
 	section {
 		position: fixed;
-		top: 0;
-		left: 0;
+		bottom: 0;
 		right: 0;
-		width: 100%;
 		display: flex;
-		margin-top: 1rem;
+		margin: 1rem;
 		justify-content: center;
 		flex-direction: column;
 		z-index: 1000;
