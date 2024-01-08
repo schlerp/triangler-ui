@@ -19,7 +19,7 @@ pnpm run dev
 pnpm run dev -- --open
 ```
 
-> > > Note: You will need to start the [Triangler API](https://github.com/schlerp/triangler-api) to use this application as this is only the frontend.
+> Note: You will need to start the [Triangler API](https://github.com/schlerp/triangler-api) to use this application as this is only the frontend.
 
 ## Building
 
