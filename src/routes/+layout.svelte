@@ -41,6 +41,7 @@
 		font-size: 2rem;
 	}
 	div {
+		position: relative;
 		border-bottom: 2px solid black;
 		display: flex;
 		justify-content: space-between;
