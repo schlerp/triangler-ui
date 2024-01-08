@@ -2,7 +2,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import type { User } from '$lib/types';
-	import { currentUser, logoutCurrentUser } from '$lib/stores/user';
+	import { currentUser } from '$lib/stores/user';
 	import { corsHeaders, getCsrfToken } from '$lib/utils';
 	import { addToast } from '$lib/stores/toasts';
 
@@ -43,8 +43,7 @@
 				currentUser.set(data);
 				isError = false;
 				addToast({
-					content: `Welcome back, ${data.username}!`,
-					timeout: 3000
+					content: `Welcome back, ${data.username}!`
 				});
 				resetForm();
 			})
@@ -61,7 +60,7 @@
 <div class="container">
 	{#if isLoggedIn}
 		<h1>Already logged in!</h1>
-		<span on:click={() => logoutCurrentUser()}>Logout</span>
+		<span><a href="/auth/logout">Logout</a></span>
 		<span><a href="/">Go to home</a></span>
 	{:else}
 		<form on:submit|preventDefault={() => handleLogin()}>

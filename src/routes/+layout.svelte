@@ -24,6 +24,16 @@
 <slot />
 
 <style>
+	:global(:root) {
+		/* Colors */
+		--pal-primary: #b9e7dd;
+		--pal-secondary: #ffc700;
+		--pal-tertiary: #fe90e7;
+
+		--pal-success: var(--pal-primary);
+		--pal-warning: var(--pal-secondary);
+		--pal-error: var(--pal-tertiary);
+	}
 	h1 {
 		padding: 0 1rem;
 		margin: auto 0;
@@ -31,11 +41,13 @@
 		font-size: 2rem;
 	}
 	div {
+		position: relative;
 		border-bottom: 2px solid black;
 		display: flex;
 		justify-content: space-between;
 		/*background-color: white;*/
-		background-color: #b9e7dd;
+		background-color: var(--pal-primary);
+		z-index: 1000;
 	}
 	nav {
 		display: flex;

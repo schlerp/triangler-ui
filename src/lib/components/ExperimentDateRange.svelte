@@ -5,8 +5,6 @@
 	export let dateStarted: string;
 	export let dateEnded: string | undefined;
 
-	const today = new Date();
-
 	const ds = new Date(dateStarted).toLocaleDateString();
 	const de = new Date(dateEnded).toLocaleDateString();
 
