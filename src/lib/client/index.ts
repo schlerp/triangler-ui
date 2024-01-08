@@ -12,7 +12,7 @@ class ApiClient {
 		method: FetchMethod,
 		payload?: ExperimentIn
 	): Experiment | JustId | Success {
-		let requestOpts = {
+		const requestOpts = {
 			method,
 			body: string,
 			headers: {}
