@@ -26,8 +26,8 @@ repos:
         args: [--config, .prettierrc, --write] # edit files in-place
         additional_dependencies:
           - prettier@2.8.8
-          - prettier-plugin-svelte
-          - svelte
+          - prettier-plugin-svelte@2.10.1
+          - svelte@4.2.0
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.38.0
@@ -46,10 +46,10 @@ repos:
         args: [--fix]
         files: \.(js|ts|svelte)$
         additional_dependencies:
-          - eslint
-          - svelte
-          - typescript
-          - eslint-plugin-svelte
-          - '@typescript-eslint/eslint-plugin'
-          - '@typescript-eslint/parser'
-          - svelte-eslint-parser
+          - eslint@8.48.0
+          - svelte@4.2.0
+          - typescript@5.2.2
+          - eslint-plugin-svelte@2.33.0
+          - '@typescript-eslint/eslint-plugin@5.62.0'
+          - '@typescript-eslint/parser@5.62.0'
+          - svelte-eslint-parser@0.33.0
