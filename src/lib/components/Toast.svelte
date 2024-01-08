@@ -21,7 +21,8 @@
 	});
 </script>
 
-<article class={`toast ${type}`}>
+<article class={`toast ${type}`}
+>
 	<div class="circle">
 		{#if type === 'error'}
 			<Fa icon={faExclamation} />
