@@ -46,6 +46,7 @@
 		justify-content: space-between;
 		/*background-color: white;*/
 		background-color: var(--pal-primary);
+		z-index: 1000;
 	}
 	nav {
 		display: flex;

@@ -21,15 +21,14 @@
 	});
 </script>
 
-<article class={`toast ${type}`}
->
+<article class={`toast ${type}`}>
 	<div class="circle">
 		{#if type === 'error'}
 			<Fa icon={faExclamation} />
-        {:else if type === 'warning'}
+		{:else if type === 'warning'}
 			<Fa icon={faExclamation} />
-        {:else if type === 'success'}
-            <Fa icon={faCheck} />
+		{:else if type === 'success'}
+			<Fa icon={faCheck} />
 		{:else}
 			<Fa icon={faInfo} />
 		{/if}
@@ -76,7 +75,7 @@
 	.info {
 		background-color: var(--pal-success);
 	}
-    .success {
+	.success {
 		background-color: var(--pal-success);
 	}
 	.warning {

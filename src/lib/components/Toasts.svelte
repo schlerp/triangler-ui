@@ -13,8 +13,8 @@
 <section class="toastContainer">
 	{#each $toasts as toast (toast.id)}
 		<div
-            animate:flip={{ delay: 200, duration: 200, easing: cubicInOut }}
-            transition:fade={{ duration: 200 }}
+			animate:flip={{ delay: 200, duration: 200, easing: cubicInOut }}
+			transition:fade={{ duration: 200 }}
 			class="toastWrapper"
 			id={`wrapper-${toast.id}`}
 		>
@@ -27,7 +27,7 @@
 
 <style>
 	section {
-        position: absolute;
+		position: absolute;
 		height: 100%;
 		overflow-y: hidden;
 		bottom: 0;
@@ -36,6 +36,6 @@
 		margin: 1rem;
 		justify-content: end;
 		flex-direction: column;
-        z-index: 1000;
+		z-index: 100;
 	}
 </style>

@@ -4,9 +4,6 @@
 	import Spinner from '$lib/components/Spinner.svelte';
 	import ExperimentDateRange from '$lib/components/ExperimentDateRange.svelte';
 
-	import Fa from 'svelte-fa';
-	import { faFlaskVial } from '@fortawesome/free-solid-svg-icons';
-
 	type SampleChoice = 'A' | 'B' | 'C';
 	interface EnrichedResponse {
 		createdAt: Date; // observation

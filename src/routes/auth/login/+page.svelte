@@ -2,7 +2,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import type { User } from '$lib/types';
-	import { currentUser, logoutCurrentUser } from '$lib/stores/user';
+	import { currentUser } from '$lib/stores/user';
 	import { corsHeaders, getCsrfToken } from '$lib/utils';
 	import { addToast } from '$lib/stores/toasts';
 
