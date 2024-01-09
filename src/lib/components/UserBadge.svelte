@@ -7,10 +7,12 @@
 <div class="wrapper">
 	{#if $currentUser !== null && $currentUser.username !== undefined}
 		<span>{$currentUser.username}</span>
-		<div class="circle"><Fa icon={faUser} /></div>
-		<a class="circle" href="/auth/logout" aria-label="Log out"><Fa icon={faSignOut} /></a>
+		<a class="circle" href="/auth/logout" title="Log out" aria-label="Log out"
+			><Fa icon={faSignOut} /></a
+		>
 	{:else}
 		<span><a href="/auth/login">Login</a></span>
+		<div class="circle"><Fa icon={faUser} /></div>
 	{/if}
 </div>
 

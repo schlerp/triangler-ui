@@ -141,7 +141,7 @@
 		align-items: center;
 	}
 	table {
-		background-color: #ffc700;
+		background-color: var(--pal-secondary);
 		border: 2px solid black;
 		border-spacing: 0;
 		width: 100%;
@@ -149,7 +149,7 @@
 		box-shadow: 4px 4px 0 black;
 	}
 	tbody tr:hover {
-		background-color: #fe90e7;
+		background-color: var(--pal-accent);
 	}
 	td {
 		text-align: center;

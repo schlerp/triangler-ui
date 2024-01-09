@@ -43,6 +43,7 @@
 				currentUser.set(data);
 				isError = false;
 				addToast({
+					type: 'info',
 					content: `Welcome back, ${data.username}!`
 				});
 				resetForm();

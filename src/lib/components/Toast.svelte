@@ -8,7 +8,7 @@
 	const dispatch = createEventDispatcher();
 
 	export let timeout = 3000;
-	export let type: ToastType = 'success';
+	export let type: ToastType = 'info';
 
 	function closeToast() {
 		dispatch('dismiss');
@@ -73,7 +73,7 @@
 		justify-content: center;
 	}
 	.info {
-		background-color: var(--pal-success);
+		background-color: var(--pal-info);
 	}
 	.success {
 		background-color: var(--pal-success);

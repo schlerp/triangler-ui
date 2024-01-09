@@ -34,7 +34,7 @@
 		padding: 1em;
 		background-color: white;
 		margin: 0;
-		background-color: #ffc700;
+		background-color: var(--pal-secondary);
 		border-radius: 4px;
 		box-shadow: 4px 4px 0 black;
 		position: relative;
@@ -44,7 +44,7 @@
 		gap: 1rem;
 	}
 	div.wrapper:hover {
-		background-color: #fe90e7;
+		background-color: var(--pal-accent);
 		box-shadow: 5px 5px 0 black;
 		transform: translateX(-1px) translateY(-1px);
 	}
