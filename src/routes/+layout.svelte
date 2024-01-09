@@ -13,9 +13,9 @@
 		>
 	</h1>
 	<nav>
-		<UserBadge />
-		<a class="nav-link" href="/">Home</a>
+		<a class="nav-link first" href="/">Home</a>
 		<a class="nav-link" href="/about">About</a>
+		<UserBadge />
 	</nav>
 </div>
 
@@ -26,13 +26,19 @@
 <style>
 	:global(:root) {
 		/* Colors */
-		--pal-primary: #b9e7dd;
+		/*
+        --pal-primary: #b9e7dd;
 		--pal-secondary: #ffc700;
 		--pal-tertiary: #fe90e7;
+        */
+		--pal-primary: #0affc2;
+		--pal-accent: #00ccf5;
+		--pal-secondary: #ffcf00;
 
-		--pal-success: var(--pal-primary);
-		--pal-warning: var(--pal-secondary);
-		--pal-error: var(--pal-tertiary);
+		--pal-info: #00ccf5;
+		--pal-success: #0affc2;
+		--pal-warning: #ff7700;
+		--pal-error: #f50076;
 	}
 	h1 {
 		padding: 0 1rem;
@@ -55,6 +61,9 @@
 	}
 	a.nav-link {
 		padding: 1rem;
+		border-right: 2px solid black;
+	}
+	a.first {
 		border-left: 2px solid black;
 	}
 	a.nav-link:hover {
