@@ -4,16 +4,17 @@ on:
     branches: [main]
 
 jobs:
-  main:
+  precommit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: 3.x
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 8
-    - uses: pre-commit/action@v3.0.0
-    - uses: pre-commit-ci/lite-action@v1.0.1
-      if: always()
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - uses: pre-commit/action@v3.0.0
+      - uses: pre-commit-ci/lite-action@v1.0.1
+        if: always()
