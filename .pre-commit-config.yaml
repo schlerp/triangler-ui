@@ -19,16 +19,6 @@ repos:
       - id: file-contents-sorter
         files: ^tools\.yml$
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v4.0.0-alpha.8
-    hooks:
-      - id: prettier
-        args: [--config, .prettierrc, --write] # edit files in-place
-        additional_dependencies:
-          - prettier@2.8.8
-          - prettier-plugin-svelte@2.10.1
-          - svelte@4.2.0
-
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.38.0
     hooks:
@@ -38,19 +28,18 @@ repos:
         # MD041: first line in a file should be a top-level heading
         args: [--disable, MD013, MD033, MD041, '--']
 
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v9.0.0-alpha.0
+  - repo: local
     hooks:
-      - id: eslint
-        types: [file]
-        args: [--fix]
+      - id: prettier
+        name: prettier
+        language: node
+        entry: pnpm run format
+        args: [--config, .prettierrc, --write] # edit files in-place
         files: \.(js|ts|svelte)$
-        additional_dependencies:
-          - eslint@8.48.0
-          - svelte@4.2.0
-          - typescript@5.2.2
-          - eslint-plugin-svelte@2.33.0
-          - '@typescript-eslint/eslint-plugin@5.62.0'
-          - '@typescript-eslint/parser@5.62.0'
-          - svelte-eslint-parser@0.33.0
-          - eslint-config-prettier@8.10.0
+
+      - id: eslint
+        name: eslint
+        language: node
+        entry: pnpm run lint
+        types: [file]
+        files: \.(js|ts|svelte)$
